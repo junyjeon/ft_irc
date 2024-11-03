@@ -272,31 +272,46 @@ INVITE friend #mychannel
 
 ### 4. 응답 코드
 ```bash
-# 1. 연결 관련 응답
+# 1. 연결 관련 응답 (0xx)
 001 RPL_WELCOME           # "Welcome to the Internet Relay Network <nick>!<user>@<host>"
 002 RPL_YOURHOST         # "Your host is <servername>, running version <ver>"
 003 RPL_CREATED          # "This server was created <date>"
 004 RPL_MYINFO          # "<servername> <version> <available user modes> <available channel modes>"
 
-# 2. 에러 응답
-431 ERR_NONICKNAMEGIVEN  # "No nickname given"
-432 ERR_ERRONEUSNICKNAME # "<nick> :Erroneous nickname"
-433 ERR_NICKNAMEINUSE    # "<nick> :Nickname is already in use"
-461 ERR_NEEDMOREPARAMS   # "<command> :Not enough parameters"
-464 ERR_PASSWDMISMATCH   # ":Password incorrect"
+# 2. 성공 응답 (2xx)
+200 RPL_NONE               # 응답 없음
+201 RPL_UMODEIS           # <user_modes> [<user_params>]
 
-# 3. 채널 관련 응답
-331 RPL_NOTOPIC         # "<channel> :No topic is set"
-332 RPL_TOPIC           # "<channel> :<topic>"
-353 RPL_NAMREPLY        # "<channel> :[[@|+]<nick> [[@|+]<nick> [...]]]"
-366 RPL_ENDOFNAMES      # "<channel> :End of /NAMES list"
+# 3. 명령어 응답 (3xx)
+301 RPL_AWAY              # <nick> :<away_message>
+311 RPL_WHOISUSER         # <nick> <user> <host> * :<real_name>
+321 RPL_LISTSTART         # Channel :Users Name
+322 RPL_LIST              # <channel> <# visible> :<topic>
+331 RPL_NOTOPIC           # <channel> :No topic is set
+332 RPL_TOPIC             # <channel> :<topic>
+341 RPL_INVITING          # <channel> <nick>
+353 RPL_NAMREPLY          # <channel> :[[@|+]<nick> [[@|+]<nick> [...]]]
+366 RPL_ENDOFNAMES        # <channel> :End of /NAMES list
 
-# 4. 채널 에러
-403 ERR_NOSUCHCHANNEL   # "<channel name> :No such channel"
-471 ERR_CHANNELISFULL   # "<channel> :Cannot join channel (+l)"
-473 ERR_INVITEONLYCHAN  # "<channel> :Cannot join channel (+i)"
-475 ERR_BADCHANNELKEY   # "<channel> :Cannot join channel (+k)"
-482 ERR_CHANOPRIVSNEEDED # "<channel> :You're not channel operator"
+# 4. 에러 응답 (4xx)
+401 ERR_NOSUCHNICK        # <nickname> :No such nick/channel
+403 ERR_NOSUCHCHANNEL     # <channel> :No such channel
+404 ERR_CANNOTSENDTOCHAN  # <channel> :Cannot send to channel
+411 ERR_NORECIPIENT       # :No recipient given (<command>)
+412 ERR_NOTEXTTOSEND      # :No text to send
+421 ERR_UNKNOWNCOMMAND    # <command> :Unknown command
+431 ERR_NONICKNAMEGIVEN   # :No nickname given
+432 ERR_ERRONEUSNICKNAME  # <nick> :Erroneous nickname
+433 ERR_NICKNAMEINUSE     # <nick> :Nickname is already in use
+441 ERR_USERNOTINCHANNEL  # <nick> <channel> :They aren't on that channel
+442 ERR_NOTONCHANNEL      # <channel> :You're not on that channel
+461 ERR_NEEDMOREPARAMS    # <command> :Not enough parameters
+464 ERR_PASSWDMISMATCH    # :Password incorrect
+471 ERR_CHANNELISFULL     # <channel> :Cannot join channel (+l)
+473 ERR_INVITEONLYCHAN    # <channel> :Cannot join channel (+i)
+474 ERR_BANNEDFROMCHAN    # <channel> :Cannot join channel (+b)
+475 ERR_BADCHANNELKEY     # <channel> :Cannot join channel (+k)
+482 ERR_CHANOPRIVSNEEDED  # <channel> :You're not channel operator
 ```
 
 ## 📡 IRC 프로토콜
