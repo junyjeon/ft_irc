@@ -63,57 +63,6 @@ USER testuser 0 * :Test User
 ## 🎯 개요
 > IRC(Internet Relay Chat) 서버를 C++로 구현하는 프로젝트입니다.
 
-### 소켓 프로그래밍 기초
-1. **소켓(Socket)**
-   - 네트워크 통신의 엔드포인트
-   - 파일 디스크립터로 관리됨
-   - TCP/IP 프로토콜 사용
-
-2. **서버 소켓 동작**
-   ```
-   socket() → bind() → listen() → accept() → read()/write()
-   ```
-
-3. **클라이언트 소켓 동작**
-   ```
-   socket() → connect() → read()/write()
-   ```
-
-4. **멀티플렉싱**
-   - select/poll/epoll을 사용한 다중 클라이언트 처리
-   - Non-blocking I/O로 효율적인 리소스 관리
-   - 이벤트 기반 프로그래밍
-
-### 1. 소켓 프로그래밍 기초
-```cpp
-// 1. 소켓 생성과 바인딩
-int socket(int domain, int type, int protocol);
-// domain: AF_INET (IPv4)
-// type: SOCK_STREAM (TCP)
-// protocol: 0 (기본 프로토콜)
-
-int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-// sockfd: 소켓 디스크립터
-// addr: 주소 정보
-// addrlen: 주소 구조체 크기
-
-// 2. listen()과 accept()
-int listen(int sockfd, int backlog);
-// backlog: 연결 대기 큐의 최대 길이
-
-int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
-// 새로운 클라이언트 연결 수락
-
-// 3. 블로킹/논블로킹 I/O
-// 블로킹: 작업이 완료될 때까지 대기
-// 논블로킹: 즉시 반환, EAGAIN/EWOULDBLOCK 에러 처리
-
-// 4. select/poll/epoll
-// select: fd_set 사용, 제한된 파일 디스크립터 수
-// poll: pollfd 구조체 사용, 더 많은 디스크립터 처리 가능
-// epoll: 리눅스 전용, 높은 성능의 이벤트 통지 메커니즘
-```
-
 ### 구현해야 할 기능
 1. **사용자 인증**
    - 비밀번호 검증
@@ -136,6 +85,55 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
    - 권한 부족 처리
    - 존재하지 않는 대상 처리
    - 중복 닉네임 처리
+
+### 소켓 프로그래밍 기초
+1. **소켓(Socket)**
+   - 네트워크 통신의 엔드포인트
+   - 파일 디스크립터로 관리됨
+   - TCP/IP 프로토콜 사용
+
+2. **서버 소켓 동작**
+   ```
+   socket() → bind() → listen() → accept() → read()/write()
+   ```
+
+3. **클라이언트 소켓 동작**
+   ```
+   socket() → connect() → read()/write()
+   ```
+
+4. **멀티플렉싱**
+   - select/poll/epoll을 사용한 다중 클라이언트 처리
+   - Non-blocking I/O로 효율적인 리소스 관리
+   - 이벤트 기반 프로그래밍
+
+### 소켓 생성과 바인딩
+```cpp
+int socket(int domain, int type, int protocol);
+// domain: AF_INET (IPv4)
+// type: SOCK_STREAM (TCP)
+// protocol: 0 (기본 프로토콜)
+
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+// sockfd: 소켓 디스크립터
+// addr: 주소 정보
+// addrlen: 주소 구조체 크기
+  
+int listen(int sockfd, int backlog);
+// backlog: 연결 대기 큐의 최대 길이
+
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+// 새로운 클라이언트 연결 수락
+```
+
+### 블로킹/논블로킹 I/O
+- 블로킹: 작업이 완료될 때까지 대기
+- 논블로킹: 즉시 반환, EAGAIN/EWOULDBLOCK 에러 처리
+
+### select/poll/epoll
+- select: fd_set 사용, 제한된 파일 디스크립터 수
+- poll: pollfd 구조체 사용, 더 많은 디스크립터 처리 가능
+- epoll: 리눅스 전용, 높은 성능의 이벤트 통지 메커니즘
 
 ### 프로젝트 구조
 ```
@@ -1345,4 +1343,3 @@ public:
 ### 5. 기타
 - [Netcat 가이드](https://nc110.sourceforge.io/)
 - [Wireshark IRC 필터링](https://wiki.wireshark.org/IRC)
-```
